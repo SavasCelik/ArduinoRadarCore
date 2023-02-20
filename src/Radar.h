@@ -4,12 +4,13 @@ class Radar {
     public:
     Radar(int echoPin, int triggerPin);
     void Setup();
-    void CalculateDistance();
+    bool CalculateDistance();
     long GetDistance();
 
     private:
     int triggerPin;
     int echoPin;
-    long dauer = 0;
-    long entfernung = 0;
+    long distance = 0;
+    int minDistance;
+    int maxDistance; 
 };
