@@ -12,5 +12,6 @@ class Radar {
     int echoPin;
     long distance = 0;
     int minDistance;
-    int maxDistance; 
+    int maxDistance;
+    const double kSpeedOfSound = 0.03432; // speed of sound in centimeter/microseconds
 };

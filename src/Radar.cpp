@@ -20,7 +20,7 @@ bool Radar::CalculateDistance()
     delay(10);
     digitalWrite(triggerPin, LOW);
     long duration = pulseIn(echoPin, HIGH);
-    distance = (duration / 2) * 0.03432;
+    distance = (duration / 2) * kSpeedOfSound;
 
     return distance >= minDistance && distance <= maxDistance;
 }
