@@ -1,31 +1,31 @@
 #include "Radar.h"
 
-Radar::Radar(int echoPin, int triggerPin) :
-echoPin(echoPin),
-triggerPin(triggerPin)
+Radar::Radar(int echo_pin, int trigger_pin) :
+echo_pin_(echo_pin),
+trigger_pin_(trigger_pin)
 {
-    minDistance = 0;
-    maxDistance = 100;
+    min_distance_ = 0;
+    max_distance_ = 100;
 }
 
 void Radar::Setup()
 {
-    pinMode(triggerPin, OUTPUT);
-    pinMode(echoPin, INPUT);
+    pinMode(trigger_pin_, OUTPUT);
+    pinMode(echo_pin_, INPUT);
 }
 
 bool Radar::CalculateDistance()
 {
-    digitalWrite(triggerPin, HIGH);
+    digitalWrite(trigger_pin_, HIGH);
     delay(10);
-    digitalWrite(triggerPin, LOW);
-    long duration = pulseIn(echoPin, HIGH);
-    distance = (duration / 2) * kSpeedOfSound;
+    digitalWrite(trigger_pin_, LOW);
+    long duration = pulseIn(echo_pin_, HIGH);
+    distance_ = (duration / 2) * kSpeedOfSound;
 
-    return distance >= minDistance && distance <= maxDistance;
+    return distance_ >= min_distance_ && distance_ <= max_distance_;
 }
 
 long Radar::GetDistance()
 {
-    return distance;
+    return distance_;
 }

@@ -2,16 +2,16 @@
 
 class Radar {
     public:
-    Radar(int echoPin, int triggerPin);
+    Radar(int echo_pin, int trigger_pin);
     void Setup();
     bool CalculateDistance();
     long GetDistance();
 
     private:
-    int triggerPin;
-    int echoPin;
-    long distance = 0;
-    int minDistance;
-    int maxDistance;
+    int trigger_pin_;
+    int echo_pin_;
+    long distance_;
+    int min_distance_;
+    int max_distance_;
     const double kSpeedOfSound = 0.03432; // speed of sound in centimeter/microseconds
 };
