@@ -25,6 +25,11 @@ bool Radar::CalculateDistance()
     return IsDistanceInRange();
 }
 
+void Radar::SetAngle(int angleInDegrees)
+{
+    servo_.write(angleInDegrees);
+}
+
 bool Radar::IsDistanceInRange()
 {
     return distance_ >= min_distance_ && distance_ <= max_distance_;

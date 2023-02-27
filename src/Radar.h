@@ -1,4 +1,5 @@
 #include <Arduino.h>
+#include <Servo.h>
 
 class Radar {
     public:
@@ -6,11 +7,13 @@ class Radar {
     void Setup();
     bool CalculateDistance();
     long GetDistance();
+    void SetAngle(int angleInDegrees);
     
     private:
     bool IsDistanceInRange();
 
     private:
+    Servo servo_;
     int trigger_pin_;
     int echo_pin_;
     long distance_;
