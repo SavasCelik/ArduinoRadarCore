@@ -1,9 +1,10 @@
 #include "Radar.h"
 
-Radar::Radar(int echo_pin, int trigger_pin) :
+Radar::Radar(int echo_pin, int trigger_pin, int servo_pin) :
 echo_pin_(echo_pin),
 trigger_pin_(trigger_pin)
 {
+    servo_.attach(servo_pin);
     min_distance_ = 0;
     max_distance_ = 100;
 }

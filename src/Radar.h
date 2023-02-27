@@ -3,7 +3,7 @@
 
 class Radar {
     public:
-    Radar(int echo_pin, int trigger_pin);
+    Radar(int echo_pin, int trigger_pin, int servo_pin);
     void Setup();
     bool CalculateDistance();
     long GetDistance();
