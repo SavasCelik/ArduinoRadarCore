@@ -6,6 +6,9 @@ class Radar {
     void Setup();
     bool CalculateDistance();
     long GetDistance();
+    
+    private:
+    bool IsDistanceInRange();
 
     private:
     int trigger_pin_;

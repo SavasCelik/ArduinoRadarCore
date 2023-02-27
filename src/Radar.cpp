@@ -22,6 +22,11 @@ bool Radar::CalculateDistance()
     long duration = pulseIn(echo_pin_, HIGH);
     distance_ = (duration / 2) * kSpeedOfSound;
 
+    return IsDistanceInRange();
+}
+
+bool Radar::IsDistanceInRange()
+{
     return distance_ >= min_distance_ && distance_ <= max_distance_;
 }
 
