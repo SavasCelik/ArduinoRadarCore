@@ -13,6 +13,10 @@ class Radar
     private:
     bool IsDistanceInRange();
 
+    public:
+    static const int kAngleMin = 0;
+    static const int kAngleMax = 180;
+
     private:
     Servo servo_;
     int echo_pin_;
@@ -20,5 +24,5 @@ class Radar
     long distance_;
     int min_distance_;
     int max_distance_;
-    const double kSpeedOfSound = 0.03432; // speed of sound in centimeter/microseconds
+    static const double kSpeedOfSound = 0.03432; // speed of sound in centimeter/microseconds
 };
