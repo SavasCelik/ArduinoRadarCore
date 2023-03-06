@@ -24,6 +24,17 @@ void setup()
 
 void loop() 
 {
+  if (infraredRemote.decode()) 
+  {
+    int command = infraredRemote.decodedIRData.command;
+
+    if (command == InfraredRemoteCommands::kXButton) 
+    {
+      ChangeControlMode();
+      infraredRemote.resume();
+    }
+  }
+
   if (controlMode == RadarControlMode::kAutomatic) 
   {
     HandleAutomatic();
@@ -54,16 +65,17 @@ void HandleManual()
 {
   if (infraredRemote.decode()) 
     {
-      infraredRemote.resume();
       int command = infraredRemote.decodedIRData.command;
     
-      if (command == InfraredRemoteCommands::kRightButton) 
+      if (command == InfraredRemoteCommands::kRightButton)
       {
         angleInDegrees += 10;
+        infraredRemote.resume();
       }
-      else if (command == InfraredRemoteCommands::kLeftButton) 
+      else if (command == InfraredRemoteCommands::kLeftButton)
       {
         angleInDegrees -= 10;
+        infraredRemote.resume();
       }
     }
 }
@@ -86,4 +98,15 @@ void ClampAngle()
       direction = RadarDirection::kLeft;
     }
   }
+}
+
+void ChangeControlMode() 
+{
+  if (controlMode == RadarControlMode::kAutomatic) 
+  {
+    controlMode = RadarControlMode::kManual;
+    return;
+  }
+
+  controlMode = RadarControlMode::kAutomatic;
 }

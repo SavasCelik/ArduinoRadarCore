@@ -6,4 +6,5 @@ class InfraredRemoteCommands
     public:
     static const int kRightButton = 67;
     static const int kLeftButton = 68;
+    static const int kXButton = 70;
 };
