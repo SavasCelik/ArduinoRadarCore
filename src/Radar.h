@@ -14,8 +14,8 @@ class Radar {
 
     private:
     Servo servo_;
-    int trigger_pin_;
     int echo_pin_;
+    int trigger_pin_;
     long distance_;
     int min_distance_;
     int max_distance_;
