@@ -1,24 +1,45 @@
 #include <Arduino.h>
 #include "config.h"
 #include "Radar.h"
+#include "RadarDirection.h"
 
 Radar myRadar(ECHO_PIN, TRIGGER_PIN, SERVO_PIN);
-int angleInDegrees = 0;
+int angleInDegrees;
+RadarDirection direction;
 
-void setup() {
-    myRadar.Setup();
-    myRadar.SetAngle(angleInDegrees);
+void setup() 
+{
+  angleInDegrees = 0;
+  direction = RadarDirection::kRight;
+  myRadar.Setup();
+  myRadar.SetAngle(angleInDegrees);
 }
 
-void loop() {
-    for (angleInDegrees = 180; angleInDegrees >= 0; angleInDegrees--) { // goes from 180 degrees to 0 degrees
-    myRadar.SetAngle(angleInDegrees);
-    Serial.println(angleInDegrees);
+void loop() 
+{
+  if (direction == RadarDirection::kRight) 
+  {
+    angleInDegrees++;
+  }
+  else if (direction == RadarDirection::kLeft) 
+  {
+    angleInDegrees--;
   }
 
-  for (angleInDegrees = 0; angleInDegrees <= 180; angleInDegrees++) {   // goes from 0 degrees to 180 degrees
-    myRadar.SetAngle(angleInDegrees);
-    Serial.println(angleInDegrees);
+  if (direction != RadarDirection::kNone) 
+  {
+    if (angleInDegrees < 0) 
+    {
+      angleInDegrees = 0;
+      direction = RadarDirection::kRight;
+    }
+    else if (angleInDegrees > 180) 
+    {
+      angleInDegrees = 180;
+      direction = RadarDirection::kLeft;
+    }
   }
-    
+
+  myRadar.SetAngle(angleInDegrees);
+  Serial.println(angleInDegrees);
 }
