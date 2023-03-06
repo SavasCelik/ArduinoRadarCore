@@ -1,7 +1,8 @@
 #include <Arduino.h>
 #include <Servo.h>
 
-class Radar {
+class Radar 
+{
     public:
     Radar(int echo_pin, int trigger_pin, int servo_pin);
     void Setup();

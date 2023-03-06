@@ -1,5 +1,5 @@
-enum class RadarDirection {
-  kNone,
+enum class RadarDirection 
+{
   kRight,
   kLeft
 };
