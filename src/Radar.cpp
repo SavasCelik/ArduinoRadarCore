@@ -26,9 +26,9 @@ bool Radar::CalculateDistance()
     return IsDistanceInRange();
 }
 
-void Radar::SetAngle(int angleInDegrees)
+void Radar::SetAngle(int angle_in_degrees)
 {
-    servo_.write(angleInDegrees);
+    servo_.write(angle_in_degrees);
 }
 
 bool Radar::IsDistanceInRange()

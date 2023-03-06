@@ -6,94 +6,94 @@
 #include "RadarControlMode.h"
 #include "InfraredRemoteCommands.h"
 
-Radar myRadar(ECHO_PIN, TRIGGER_PIN, SERVO_PIN);
-int angleInDegrees;
+Radar my_radar(ECHO_PIN, TRIGGER_PIN, SERVO_PIN);
+int angle_in_degrees;
 RadarDirection direction;
-RadarControlMode controlMode;
-IRrecv infraredRemote(8);
+RadarControlMode control_mode;
+IRrecv infrared_remote(8);
 
 void setup() 
 {
-  angleInDegrees = 0;
+  angle_in_degrees = 0;
   direction = RadarDirection::kRight;
-  controlMode = RadarControlMode::kAutomatic;
-  myRadar.Setup();
-  myRadar.SetAngle(angleInDegrees);
-  infraredRemote.start();
+  control_mode = RadarControlMode::kAutomatic;
+  my_radar.Setup();
+  my_radar.SetAngle(angle_in_degrees);
+  infrared_remote.start();
 }
 
 void loop() 
 {
-  if (infraredRemote.decode()) 
+  if (infrared_remote.decode()) 
   {
-    int command = infraredRemote.decodedIRData.command;
+    int command = infrared_remote.decodedIRData.command;
 
     if (command == InfraredRemoteCommands::kXButton) 
     {
       ChangeControlMode();
-      infraredRemote.resume();
+      infrared_remote.resume();
     }
   }
 
-  if (controlMode == RadarControlMode::kAutomatic) 
+  if (control_mode == RadarControlMode::kAutomatic) 
   {
     HandleAutomatic();
   }
-  else if (controlMode == RadarControlMode::kManual) 
+  else if (control_mode == RadarControlMode::kManual) 
   {
     HandleManual();
   }
 
   ClampAngle();
-  myRadar.SetAngle(angleInDegrees);
-  Serial.println(angleInDegrees);
+  my_radar.SetAngle(angle_in_degrees);
+  Serial.println(angle_in_degrees);
 }
 
 void HandleAutomatic() 
 {
   if (direction == RadarDirection::kRight) 
   {
-    angleInDegrees++;
+    angle_in_degrees++;
   }
   else if (direction == RadarDirection::kLeft) 
   {
-    angleInDegrees--;
+    angle_in_degrees--;
   }
 }
 
 void HandleManual() 
 {
-  if (infraredRemote.decode()) 
+  if (infrared_remote.decode()) 
     {
-      int command = infraredRemote.decodedIRData.command;
+      int command = infrared_remote.decodedIRData.command;
     
       if (command == InfraredRemoteCommands::kRightButton)
       {
-        angleInDegrees += 10;
-        infraredRemote.resume();
+        angle_in_degrees += 10;
+        infrared_remote.resume();
       }
       else if (command == InfraredRemoteCommands::kLeftButton)
       {
-        angleInDegrees -= 10;
-        infraredRemote.resume();
+        angle_in_degrees -= 10;
+        infrared_remote.resume();
       }
     }
 }
 
 void ClampAngle() 
 {
-  if (angleInDegrees < Radar::kAngleMin)
+  if (angle_in_degrees < Radar::kAngleMin)
   {
-    angleInDegrees = Radar::kAngleMin;
-    if (controlMode == RadarControlMode::kAutomatic) 
+    angle_in_degrees = Radar::kAngleMin;
+    if (control_mode == RadarControlMode::kAutomatic) 
     {
       direction = RadarDirection::kRight;
     }
   }
-  else if (angleInDegrees > Radar::kAngleMax) 
+  else if (angle_in_degrees > Radar::kAngleMax) 
   {
-    angleInDegrees = Radar::kAngleMax;
-    if (controlMode == RadarControlMode::kAutomatic) 
+    angle_in_degrees = Radar::kAngleMax;
+    if (control_mode == RadarControlMode::kAutomatic) 
     {
       direction = RadarDirection::kLeft;
     }
@@ -102,11 +102,11 @@ void ClampAngle()
 
 void ChangeControlMode() 
 {
-  if (controlMode == RadarControlMode::kAutomatic) 
+  if (control_mode == RadarControlMode::kAutomatic) 
   {
-    controlMode = RadarControlMode::kManual;
+    control_mode = RadarControlMode::kManual;
     return;
   }
 
-  controlMode = RadarControlMode::kAutomatic;
+  control_mode = RadarControlMode::kAutomatic;
 }
