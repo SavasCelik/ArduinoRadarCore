@@ -2,9 +2,9 @@
 
 Radar::Radar(int echo_pin, int trigger_pin, int servo_pin) :
 echo_pin_(echo_pin),
-trigger_pin_(trigger_pin)
+trigger_pin_(trigger_pin),
+servo_pin_(servo_pin)
 {
-    servo_.attach(servo_pin);
     min_distance_ = 0;
     max_distance_ = 100;
 }
@@ -13,6 +13,7 @@ void Radar::Setup()
 {
     pinMode(trigger_pin_, OUTPUT);
     pinMode(echo_pin_, INPUT);
+    servo_.attach(servo_pin_);
 }
 
 bool Radar::CalculateDistance()

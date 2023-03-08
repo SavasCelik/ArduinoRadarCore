@@ -21,8 +21,9 @@ class Radar
     Servo servo_;
     int echo_pin_;
     int trigger_pin_;
+    int servo_pin_;
     long distance_;
     int min_distance_;
     int max_distance_;
-    static const double kSpeedOfSound = 0.03432; // speed of sound in centimeter/microseconds
+    static constexpr double kSpeedOfSound = 0.03432; // speed of sound in centimeter/microseconds
 };
