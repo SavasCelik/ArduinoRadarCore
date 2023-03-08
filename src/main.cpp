@@ -12,7 +12,6 @@ long distance;
 RadarDirection direction;
 RadarControlMode control_mode;
 IRrecv infrared_remote(IREMOTE_PIN);
-decode_results res;
 int command2;
 
 // Predefined methods
@@ -55,18 +54,19 @@ void loop()
     HandleManual();
   }
 
-  ClampAngle();
-
+  my_radar.SetAngle(angle_in_degrees);
+  
   distance = -1;
   if (my_radar.CalculateDistance()) 
   {
     distance = my_radar.GetDistance();
   }
-  delay(100);
-  my_radar.SetAngle(angle_in_degrees);
+
+  ClampAngle();
   Serial.print(angle_in_degrees);
   Serial.print(";");
   Serial.println(distance);
+  delay(100);
 }
 
 void HandleAutomatic() 
