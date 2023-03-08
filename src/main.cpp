@@ -10,13 +10,20 @@ Radar my_radar(ECHO_PIN, TRIGGER_PIN, SERVO_PIN);
 int angle_in_degrees;
 RadarDirection direction;
 RadarControlMode control_mode;
-IRrecv infrared_remote(8);
+IRrecv infrared_remote(IREMOTE_PIN);
+
+// Predefined methods
+void HandleAutomatic();
+void HandleManual();
+void ClampAngle();
+void ChangeControlMode();
 
 void setup() 
 {
+  Serial.begin(9600);
   angle_in_degrees = 0;
   direction = RadarDirection::kRight;
-  control_mode = RadarControlMode::kAutomatic;
+  control_mode = RadarControlMode::kManual;
   my_radar.Setup();
   my_radar.SetAngle(angle_in_degrees);
   infrared_remote.start();
@@ -28,9 +35,14 @@ void loop()
   {
     int command = infrared_remote.decodedIRData.command;
 
-    if (command == InfraredRemoteCommands::kXButton) 
+    if (command == InfraredRemoteCommands::k5Button) 
     {
       ChangeControlMode();
+      delay(100);
+    }
+    
+    if (control_mode == RadarControlMode::kAutomatic)
+    {
       infrared_remote.resume();
     }
   }
@@ -38,6 +50,7 @@ void loop()
   if (control_mode == RadarControlMode::kAutomatic) 
   {
     HandleAutomatic();
+    delay(25);
   }
   else if (control_mode == RadarControlMode::kManual) 
   {
@@ -64,20 +77,19 @@ void HandleAutomatic()
 void HandleManual() 
 {
   if (infrared_remote.decode()) 
-    {
-      int command = infrared_remote.decodedIRData.command;
+  {
+    infrared_remote.resume();
+    int command = infrared_remote.decodedIRData.command;
     
-      if (command == InfraredRemoteCommands::kRightButton)
-      {
-        angle_in_degrees += 10;
-        infrared_remote.resume();
-      }
-      else if (command == InfraredRemoteCommands::kLeftButton)
-      {
-        angle_in_degrees -= 10;
-        infrared_remote.resume();
-      }
+    if (command == InfraredRemoteCommands::kRightButton)
+    {
+      angle_in_degrees -= 10;
     }
+    else if (command == InfraredRemoteCommands::kLeftButton)
+    {
+      angle_in_degrees += 10;
+    }
+  }
 }
 
 void ClampAngle() 
