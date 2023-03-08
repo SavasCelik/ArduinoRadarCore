@@ -8,9 +8,12 @@
 
 Radar my_radar(ECHO_PIN, TRIGGER_PIN, SERVO_PIN);
 int angle_in_degrees;
+long distance;
 RadarDirection direction;
 RadarControlMode control_mode;
 IRrecv infrared_remote(IREMOTE_PIN);
+decode_results res;
+int command2;
 
 // Predefined methods
 void HandleAutomatic();
@@ -31,26 +34,21 @@ void setup()
 
 void loop() 
 {
+  command2 = -1;
   if (infrared_remote.decode()) 
   {
-    int command = infrared_remote.decodedIRData.command;
+    command2 = infrared_remote.decodedIRData.command;
+    infrared_remote.resume();
+  }
 
-    if (command == InfraredRemoteCommands::k5Button) 
-    {
-      ChangeControlMode();
-      delay(100);
-    }
-    
-    if (control_mode == RadarControlMode::kAutomatic)
-    {
-      infrared_remote.resume();
-    }
+  if (command2 == InfraredRemoteCommands::k5Button)
+  {
+    ChangeControlMode();
   }
 
   if (control_mode == RadarControlMode::kAutomatic) 
   {
     HandleAutomatic();
-    delay(25);
   }
   else if (control_mode == RadarControlMode::kManual) 
   {
@@ -58,37 +56,40 @@ void loop()
   }
 
   ClampAngle();
+
+  distance = -1;
+  if (my_radar.CalculateDistance()) 
+  {
+    distance = my_radar.GetDistance();
+  }
+  delay(100);
   my_radar.SetAngle(angle_in_degrees);
-  Serial.println(angle_in_degrees);
+  Serial.print(angle_in_degrees);
+  Serial.print(";");
+  Serial.println(distance);
 }
 
 void HandleAutomatic() 
 {
   if (direction == RadarDirection::kRight) 
   {
-    angle_in_degrees++;
+    angle_in_degrees += 10;
   }
   else if (direction == RadarDirection::kLeft) 
   {
-    angle_in_degrees--;
+    angle_in_degrees -= 10;
   }
 }
 
 void HandleManual() 
 {
-  if (infrared_remote.decode()) 
+  if (command2 == InfraredRemoteCommands::kRightButton)
   {
-    infrared_remote.resume();
-    int command = infrared_remote.decodedIRData.command;
-    
-    if (command == InfraredRemoteCommands::kRightButton)
-    {
-      angle_in_degrees -= 10;
-    }
-    else if (command == InfraredRemoteCommands::kLeftButton)
-    {
-      angle_in_degrees += 10;
-    }
+    angle_in_degrees -= 10;
+  }
+  else if (command2 == InfraredRemoteCommands::kLeftButton)
+  {
+    angle_in_degrees += 10;
   }
 }
 

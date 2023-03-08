@@ -6,7 +6,7 @@ trigger_pin_(trigger_pin),
 servo_pin_(servo_pin)
 {
     min_distance_ = 0;
-    max_distance_ = 100;
+    max_distance_ = 50;
 }
 
 void Radar::Setup()
