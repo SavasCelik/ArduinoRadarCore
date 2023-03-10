@@ -8,7 +8,7 @@ class Radar
     void Setup();
     bool CalculateDistance();
     long GetDistance();
-    void SetAngle(int angleInDegrees);
+    void SetAngle(int angle_in_degrees);
     
     private:
     bool IsDistanceInRange();
@@ -26,4 +26,6 @@ class Radar
     int min_distance_;
     int max_distance_;
     static constexpr double kSpeedOfSound = 0.03432; // speed of sound in centimeter/microseconds
+    static const int kMinDistance = 0;
+    static const int kMaxDistance = 50;
 };

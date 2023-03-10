@@ -5,8 +5,6 @@ echo_pin_(echo_pin),
 trigger_pin_(trigger_pin),
 servo_pin_(servo_pin)
 {
-    min_distance_ = 0;
-    max_distance_ = 50;
 }
 
 void Radar::Setup()
@@ -27,14 +25,15 @@ bool Radar::CalculateDistance()
     return IsDistanceInRange();
 }
 
+//Checks whether or not the distance is in range
+bool Radar::IsDistanceInRange()
+{
+    return distance_ >= kMinDistance && distance_ <= kMaxDistance;
+}
+
 void Radar::SetAngle(int angle_in_degrees)
 {
     servo_.write(angle_in_degrees);
-}
-
-bool Radar::IsDistanceInRange()
-{
-    return distance_ >= min_distance_ && distance_ <= max_distance_;
 }
 
 long Radar::GetDistance()

@@ -12,7 +12,7 @@ long distance;
 RadarDirection direction;
 RadarControlMode control_mode;
 IRrecv infrared_remote(IREMOTE_PIN);
-int command2;
+int command;
 
 // Predefined methods
 void HandleAutomatic();
@@ -33,14 +33,14 @@ void setup()
 
 void loop() 
 {
-  command2 = -1;
+  command = -1;
   if (infrared_remote.decode()) 
   {
-    command2 = infrared_remote.decodedIRData.command;
+    command = infrared_remote.decodedIRData.command;
     infrared_remote.resume();
   }
 
-  if (command2 == InfraredRemoteCommands::k5Button)
+  if (command == InfraredRemoteCommands::k5Button)
   {
     ChangeControlMode();
   }
@@ -83,11 +83,11 @@ void HandleAutomatic()
 
 void HandleManual() 
 {
-  if (command2 == InfraredRemoteCommands::kRightButton)
+  if (command == InfraredRemoteCommands::kRightButton)
   {
     angle_in_degrees -= 10;
   }
-  else if (command2 == InfraredRemoteCommands::kLeftButton)
+  else if (command == InfraredRemoteCommands::kLeftButton)
   {
     angle_in_degrees += 10;
   }
