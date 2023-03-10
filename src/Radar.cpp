@@ -7,6 +7,7 @@ servo_pin_(servo_pin)
 {
 }
 
+// setting up the pins and the radar
 void Radar::Setup()
 {
     pinMode(trigger_pin_, OUTPUT);
@@ -14,6 +15,7 @@ void Radar::Setup()
     servo_.attach(servo_pin_);
 }
 
+// Calculates the distance and returns true when there was an object in the accepted range, else false
 bool Radar::CalculateDistance()
 {
     digitalWrite(trigger_pin_, HIGH);
@@ -31,11 +33,13 @@ bool Radar::IsDistanceInRange()
     return distance_ >= kMinDistance && distance_ <= kMaxDistance;
 }
 
+// Sets the angle of the servo
 void Radar::SetAngle(int angle_in_degrees)
 {
     servo_.write(angle_in_degrees);
 }
 
+// returns the last found distance
 long Radar::GetDistance()
 {
     return distance_;

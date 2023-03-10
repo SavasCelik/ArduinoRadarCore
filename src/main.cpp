@@ -14,12 +14,14 @@ RadarControlMode control_mode;
 IRrecv infrared_remote(IREMOTE_PIN);
 int command;
 
-// Predefined methods
+/*** Predefined functions ***/
 void HandleAutomatic();
 void HandleManual();
 void ClampAngle();
 void ChangeControlMode();
 
+
+// setting up the projekt
 void setup() 
 {
   Serial.begin(9600);
@@ -31,6 +33,7 @@ void setup()
   infrared_remote.start();
 }
 
+// looping over instructions
 void loop() 
 {
   command = -1;
@@ -69,6 +72,7 @@ void loop()
   delay(100);
 }
 
+// Handles the movement of the radar Automatically
 void HandleAutomatic() 
 {
   if (direction == RadarDirection::kRight) 
@@ -81,6 +85,7 @@ void HandleAutomatic()
   }
 }
 
+// Handles the movement of the radar when a button was pressed
 void HandleManual() 
 {
   if (command == InfraredRemoteCommands::kRightButton)
@@ -93,6 +98,7 @@ void HandleManual()
   }
 }
 
+// guarantees that the radar doesent have unexpected angles 
 void ClampAngle() 
 {
   if (angle_in_degrees < Radar::kAngleMin)
@@ -113,6 +119,7 @@ void ClampAngle()
   }
 }
 
+// changes the control mode
 void ChangeControlMode() 
 {
   if (control_mode == RadarControlMode::kAutomatic) 

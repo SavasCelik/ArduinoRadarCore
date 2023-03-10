@@ -1,3 +1,4 @@
+// With this class, you can determine which button on the Infrared Remote was pressed.
 class InfraredRemoteCommands 
 {
     private:
